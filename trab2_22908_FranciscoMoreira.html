@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+ <meta charset="utf-8" />
+    <title>Trab2 - Padrões Modulares Gráficos</title>
+    <style>
+	 
+        #base {
+            width: 922px;
+            margin: 0px auto;
+        }
+
+        #ctrls {
+            float: left;
+            width: 250px;
+            background-color: #d0d0d0;
+            padding: 10px;
+            border: 1px solid #000000;
+            margin: 2px;
+        }
+
+        .etiq {
+            width: 240px;
+        }
+
+        .slide {
+            font: bold 14px arial;
+            color: #905020;
+        }
+
+        .miniTela {
+            border: 4px solid transparent;
+            background-color: transparent;
+            margin: 8px 8px 0px 0px;
+        }
+
+        #padrao {
+            float: left;
+            margin: 2px;
+        }
+
+        #tela0 {
+            border: 1px solid #000000;
+            background-color: #ffffff;
+        }
+
+        .text {
+            font: bold 20px arial;
+            color: #0060b0;
+        }
+
+        body {
+            background-color: #b0b0b0;
+        }
+    </style>
+    <script>
+		var dados = [];
+		//array das funções para os módulos gráficos
+		var modulo = [modulo1, modulo2, modulo3, modulo4];
+		
+        //inicialização
+        function inic() {
+				//adquire referências
+            adqInterf();
+				//mostra modulos
+				mostraModulos();  
+        }
+		  
+	
+			//******** input/output ********
+			//adquire referências
+        function adqInterf() {
+				//referência do contexto gráfico da tela maior
+            graf0 = returnContext(returnDoc("tela0"));
+				//referências das minitelas
+            refTela1 = document.getElementById("tela1");
+				refTela2 = document.getElementById("tela2");
+				refTela3 = document.getElementById("tela3");
+				refTela4 = document.getElementById("tela4");
+				//referências dos contextos gráficos das minitelas
+            graf1 = refTela1.getContext("2d");
+				graf2 = refTela2.getContext("2d");
+				graf3 = refTela3.getContext("2d");
+				graf4 = refTela4.getContext("2d");
+				dados[9] = returnDoc("cursDimensao"); 
+				dados[10] = returnDoc("cursRepeticao");
+            dados[11] = returnDoc("cursModulo")	; 
+				dados[12] = returnDoc("txt_1");
+            dados[13] = returnDoc("txt_2"); 
+				dados[14] = returnDoc("txt_3");
+        }
+		  
+		  //mostra módulos
+		  function mostraModulos(){
+				modulo[0](graf1, 5, 5, 70);
+            modulo[1](graf2, 5, 5, 70);
+            modulo[2](graf3, 5, 5, 70);
+            modulo[3](graf4, 5, 5, 70);
+				escolhe(refTela4, 3);	
+				}
+				
+				
+			//tira o fundo branco a todas as telas
+        function tiraFundoTelas() {
+            refTela1.style.backgroundColor = "transparent";
+            refTela2.style.backgroundColor = "transparent";
+            refTela3.style.backgroundColor = "transparent";
+            refTela4.style.backgroundColor = "transparent";
+        }
+				
+				
+			//********* processos **********
+
+			//desenha um certo módulo "modulo1" escalável: um quadrado em cor cinzento escura com quatro pintas em vermelho, verde, azul e laranja, contornadas por uma linha branca com espessura de 1/35 da largura do quadrado. São dados: o contexto gráfico, as coordenadas do vértice superior esquerdo e a dimensão do lado do quadrado do módulo.	
+			function modulo1(cGraf, x, y, lMod) {
+            pintaRect(cGraf, x, y, lMod, lMod, "#666666", "transparent", 0, 1);
+            pintaCirc(cGraf, x + 2 * lMod / 7, y + 2 * lMod / 7, lMod / 7, "#ff0000", "#ffffff", lMod / 35, 1);
+            pintaCirc(cGraf, x + 5 * lMod / 7, y + 2 * lMod / 7, lMod / 7, "#008000", "#ffffff", lMod / 35, 1);
+            pintaCirc(cGraf, x + 2 * lMod / 7, y + 5 * lMod / 7, lMod / 7, "#0000ff", "#ffffff", lMod / 35, 1);
+            pintaCirc(cGraf, x + 5 * lMod / 7, y + 5 * lMod / 7, lMod / 7, "#ff8000", "#ffffff", lMod / 35, 1);
+        }
+		  
+		  
+		  //desenha um certo módulo "modulo2" escalável: sobre um quadrado imaginário, são incritos 4 quadrados nos vértices, 4 quadrados a meio dos lados e um círculo tangente aos vértices mais interiores dos primeiros quadrados; dentro do círculo são inscritos quatro quadrados coloridos, cujos vértices dos contornos partilham os referidos vértices; o lado dos quadrados é 1/5 do lado do módulo; as condições gráficas são as mesmas descritas no módulo 1. São dados: o contexto gráfico, as coordenadas do vértice superior esquerdo e a dimensão do lado do quadrado do módulo.
+		  function modulo2(cGraf, x, y, lMod) {
+            var CINZ = "#666666", SLIN = "transparent", D = lMod / 5, ESP = lMod / 35;
+            pintaCirc(cGraf, x + lMod / 2, y + lMod / 2, 0.427 * lMod, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x, y, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x + 2 * D, y, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x + 4 * D, y, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x, y + 2 * D, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x + 4 * D, y + 2 * D, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x, y + 4 * D, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x + 2 * D, y + 4 * D, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x + 4 * D, y + 4 * D, D, D, CINZ, SLIN, 0, 1);
+            pintaRect(cGraf, x + D + ESP / 2, y + D + ESP / 2, D, D, "#ff0000", "#ffffff", ESP, 1);
+            pintaRect(cGraf, x + 3 * D - ESP / 2, y + D + ESP / 2, D, D, "#008000", "#ffffff", ESP, 1);
+            pintaRect(cGraf, x + D + ESP / 2, y + 3 * D - ESP / 2, D, D, "#0000ff", "#ffffff", ESP, 1);
+            pintaRect(cGraf, x + 3 * D - ESP / 2, y + 3 * D - ESP / 2, D, D, "#ff8000", "#ffffff", ESP, 1);
+        }
+
+
+			//desenha um certo módulo "modulo3" escalável: 4 triângulos retângulos isósceles iguais dispostos com o vértice reto comum, formando um quadrado; os triângulos são contornadas por uma linha preta com a espessura de meio pixel e são preenchidos, respetivamente, pelas cores "#ffddBB", "#778899", "#334455" e "#bb9977". São dados: o contexto gráfico, as coordenadas do vértice superior esquerdo e a dimensão do lado do quadrado do módulo.
+        function modulo3(cGraf, x, y, lMod) {
+            var i, COR, VRTX; COR = ["#ffddBB", "#778899", "#334455", "#bb9977"];
+            VRTX = [{ ux: 0, uy: 0 }, { ux: 1, uy: 0 }, { ux: 1, uy: 1 }, {ux: 0, uy: 1},{ ux: 0, uy: 0 }, { ux: 1 / 2, uy: 1 / 2 }];
+            cGraf.strokeStyle = "#000000"; cGraf.lineWidth = 1 / 2;
+            for (i = 0; i < 5; i++) {
+                cGraf.fillStyle = COR[i];
+					 //beginPath(),inicia um novo caminho esvaziando a lista de sub-caminhos
+                cGraf.beginPath();
+					 //moveTo() move o caminho para o ponto especificado no ecrã, sem criar uma linha
+                cGraf.moveTo(x + lMod * VRTX[5].ux, y + lMod * VRTX[5].uy);
+					 //lineTo() adiciona um novo ponto e cria uma linha para o mesmo a partir do ultimo ponto especificado no ecrã
+                cGraf.lineTo(x + lMod * VRTX[i].ux, y + lMod * VRTX[i].uy);
+                cGraf.lineTo(x + lMod * VRTX[i + 1].ux, y + lMod * VRTX[i + 1].uy);
+					 //closePath() cria um caminhodo ponto actual de volta ao ponto inicial
+                cGraf.closePath();
+					 //fill() preenche os elementos especificados numa matriz com um valor estatico
+                cGraf.fill();
+					 //stroke() desenha o caminho definido com todos os métodos moveTo() e lineTo().
+                cGraf.stroke();
+            }
+        }
+
+			//mostra o border da tela indicada
+        function entra(tela) {
+            tela.style.borderColor = "#908070";
+        }
+		  
+			//esconde o border da tela indicada
+        function sai(tela) {
+            tela.style.borderColor = "transparent";
+        }
+
+        function escolhe(tela, n) {
+            escolha = n; tiraFundoTelas();
+            tela.style.backgroundColor = "#ffffff";
+				validacao();
+        }
+
+			
+        function returnDoc(x) {
+            return document.getElementById(x);
+        }
+
+        function returnContext(x) {
+            return x.getContext("2d");
+        }
+
+        function validaNumReal(x) {
+            return parseFloat(x);
+        }
+
+        function arredonda(x) {
+            return x.toFixed(2);
+        }
+
+       
+			//desenha um certo módulo "modulo4" escalável,Temporariamente, será um quadrado cinzento com uma coroa circular interna verde contornada a preto, com espessura de 1/35 da largura do quadrado; os raios da coroa circular são de 2/9 e 4/9 do lado do módulo. São dados: o contexto gráfico, as coordenadas do vértice superior esquerdo e a dimensão do lado do quadrado do módulo.
+        function modulo4(cGraf, x, y, lMod) {
+            pintaRect(cGraf, x, y, lMod, lMod, "#777777", "transparent", 0, 1);		
+            pintaCirc(cGraf, x + lMod / 2, y + lMod / 2, lMod * 4 / 9, "#00a000", "#000000", lMod / 35, 1);
+            pintaCirc(cGraf, x + lMod / 2, y + lMod / 2, lMod * 2 / 9, "#ffffff", "#00ff00", lMod / 35, 1);
+				pintaCirc(cGraf, x + lMod / 2, y + lMod / 2, lMod * 2 / 9, "#be935a", "#000000", lMod / 35, 1);
+        }
+		  
+		  //pinta um retângulo (ortogonal), dados: o contexto gráfico, as coordenadas do vértice superior esquerdo, a largura, a altura, a cor de prenchimento, a cor da linha, a espessura da linha (pixels) e o grau de opacidade global
+        function pintaRect(cGraf, x, y, larg, alt, corP, corL, espL, opac) {
+			//estabelece as cores de prenchimento e da linha
+            cGraf.fillStyle = corP; cGraf.strokeStyle = corL;
+				//estabelece a espessura da linha
+            cGraf.lineWidth = espL; cGraf.globalAlpha = opac;
+				//estabelece um percurso gráfico (todo o retângulo é um percurso fechado)
+            cGraf.beginPath(); cGraf.rect(x, y, larg, alt);
+				//pinta o preenchimento e traça o contorno
+            cGraf.fill(); cGraf.stroke();
+        }
+
+			//pinta um círculo (ortogonal), dados: o contexto gráfico, as coordenadas do centro, o raio, a cor de prenchimento, a cor da linha, a espessura da linha (pixels) e o grau de opacidade global
+        function pintaCirc(cGraf, x, y, raio, corP, corL, espL, opac) {
+		  //estabelece as cores de prenchimento e da linha
+            cGraf.fillStyle = corP;
+            cGraf.strokeStyle = corL;
+				//estabelece a espessura da linha
+            cGraf.lineWidth = espL;
+				//estabelece a opacidade global
+            cGraf.globalAlpha = opac;
+				//estabelece um percurso gráfico
+            cGraf.beginPath();
+            cGraf.arc(x, y, raio, 0, 2 * Math.PI);
+				//pinta o preenchimento e traça o contorno
+            cGraf.fill(); cGraf.stroke();
+        }
+
+
+			//pinta um padrão quadrado de módulos quadrados, dados, a lista dos Módulos (listaMods), o índice do módulo (iMod), o contexto gráfico (cGraf), a dimensão (dim), o grau de repetição (rep) e o fator de modulação (fMod)
+        function padrQuadModulo(listaMods, iMod, cGraf, dim, rep, fMod) {
+		  //calcula o lado da quadrícula repetente (lQuad), o lado do módulo quadrado (lMod) e a dimensão da margem livre da quadrícula (espaço entre o módulo e a quadrícula)
+            var i, j, lQuad = dim / rep, lMod = lQuad * fMod, mQuad = (lQuad - lMod) / 2;
+				//iteradores de linha (i) e de quadrícula (j)
+            for (i = 0; i < rep; i++) {
+				//itera quadrículas
+                for (j = 0; j < rep; j++) {
+					 //pinta um módulo
+                    listaMods[iMod](cGraf, j * lQuad + mQuad, i * lQuad + mQuad, lMod);
+                }
+            }
+        }
+
+
+		  function validacao() {
+            var dim = validaNumReal(dados[9].value), rep = validaNumReal(dados[10].value), fMod = validaNumReal(dados[11].value);
+            dados[12].innerHTML = dim;
+            dados[13].innerHTML = rep;
+            dados[14].innerHTML = arredonda(fMod);
+            graf0.clearRect(0, 0, 600, 600);
+            padrQuadModulo(modulo, escolha, graf0, dim, rep, fMod);
+        }
+
+    </script>
+
+</head>
+<body onload="inic()">
+    <div id="base">
+        <div id="padrao">
+            <canvas id="tela0" width="600" height="600"></canvas>
+        </div>
+        <div id="ctrls">
+				<span class="slide">dimensão (0-600): </span><span class="text" id="txt_1"></span><br />
+				<input class="etiq" id="cursDimensao" type="range" min="0" max="600" step="1" value="450" oninput="validacao()" /><br />
+				<span class="slide">grau de repetição (1-20):</span>
+            <span class="text" id="txt_2"></span><br />
+				<input class="etiq" id="cursRepeticao" type="range" min="1" max="20" step="1" value="7" oninput="validacao()" />
+            <br /><span class="slide">fator de modulação (0.05-1.00):</span>
+            <span class="text" id="txt_3"></span><br />
+				
+				<input class="etiq" id="cursModulo" type="range" min="0.05"
+                max="1" step="0.05" value="0.75" oninput="validacao()" /><br /><br />
+					 
+				<canvas class="miniTela" id="tela1" width="80" height="80" onmouseover="entra(this)" onmouseout="sai(this)" onclick="escolhe(this, 0)"></canvas>
+				
+            <canvas class="miniTela" id="tela2" width="80" height="80" onmouseover="entra(this)"onmouseout="sai(this)" onclick="escolhe(this, 1)"></canvas><br />
+				
+				<canvas class="miniTela" id="tela3" width="80" height="80" onmouseover="entra(this)" onmouseout="sai(this)" onclick="escolhe(this, 2)"></canvas>
+				
+				<canvas class="miniTela" id="tela4" width="80" height="80" onmouseover="entra(this)" onmouseout="sai(this)" onclick="escolhe(this, 3)"></canvas>
+        </div>
+    </div>
+</body>
+</html>
